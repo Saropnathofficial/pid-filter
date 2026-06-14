@@ -362,6 +362,11 @@
   function exportAllCSV() {
     if (allEntries.length === 0) return;
 
+    const fileName = prompt('Enter a name for the file:', 'pid_filter_all_results');
+    if (fileName === null) return; // user clicked Cancel
+
+    const safeName = (fileName.trim() || 'pid_filter_all_results').replace(/[^a-zA-Z0-9_\-\s]/g, '').replace(/\s+/g, '_');
+
     const headers = ['Error Code', 'Key', 'Description', 'Sub Type', 'Time'];
     const rows = allEntries.map((e) => [
       e.errorCode,
@@ -380,13 +385,13 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `pid_filter_all_results_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.download = `${safeName}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    showToast(`✅ Exported all ${allEntries.length} key(s) across ${groupedData.size} error code(s)`, 'success');
+    showToast(`✅ Exported all ${allEntries.length} key(s) as "${safeName}.csv"`, 'success');
   }
 
   // ===== Clear =====
