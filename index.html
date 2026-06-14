@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f6ef7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>PID Filter — Key Lookup & Error Code Organizer</title>
+  <meta name="description" content="Paste product key details and instantly organize them into Excel-like tabs grouped by error code." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- =============== INPUT PAGE =============== -->
+    <div id="input-page" class="page active">
+
+      <!-- Header -->
+      <header class="app-header">
+        <div class="app-header-row">
+          <div class="app-logo-icon" aria-hidden="true">🔑</div>
+          <h1 class="app-title">PID Filter</h1>
+
+          <!-- Theme Toggle -->
+          <div class="theme-toggle-wrapper">
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light/dark theme" title="Toggle theme">
+              <span class="theme-icon-light" aria-hidden="true">☀️</span>
+              <span class="theme-icon-dark" aria-hidden="true">🌙</span>
+              <span class="theme-toggle-knob"></span>
+            </button>
+          </div>
+        </div>
+        <p class="app-subtitle">Paste your product key details below to organize them by error code</p>
+      </header>
+
+      <!-- Input Card -->
+      <div class="glass-card">
+        <div class="input-section">
+          <label class="input-label" for="key-input">Paste Key Details</label>
+          <textarea
+            id="key-input"
+            class="input-textarea"
+            placeholder="Paste your key details here...
+
+Example:
+Key: F8VG2-G9NMF-24HFY-Y3VPV-FJRC2
+Description: Win 10 RTM Professional OEM:DM
+Sub Type: [TH]X19-99481
+Error Code: 0xC004C060
+Time: 19:20:29 14/06/2026 (GMT+7)
+
+Key: ABCDE-FGHIJ-KLMNO-PQRST-UVWXY
+Description: Win 10 RTM Professional OEM:DM
+Sub Type: [TH]X19-99481
+Error Code: 0xC004C080
+Time: 19:30:00 14/06/2026 (GMT+7)"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
+
+        <!-- Format Hint -->
+        <div class="format-hint">
+          <div class="format-hint-title">ℹ️ Expected Format</div>
+          <pre>Key: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+Description: Product description
+Sub Type: [XX]XXX-XXXXX
+Error Code: 0xXXXXXXXX
+Time: HH:MM:SS DD/MM/YYYY (GMT+X)
+
+(Separate multiple entries with a blank line)</pre>
+        </div>
+
+        <!-- Actions -->
+        <div class="btn-group">
+          <button id="btn-clear" class="btn btn-secondary" type="button">
+            🗑️ Clear
+          </button>
+          <button id="btn-next" class="btn btn-primary" type="button">
+            Next →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== RESULTS PAGE =============== -->
+    <div id="results-page" class="page">
+
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-header-left">
+          <button id="btn-back" class="btn btn-secondary" type="button">
+            ← Back
+          </button>
+          <div class="results-stats">
+            <div class="stat-item">
+              <span id="stat-keys" class="stat-value">0</span>
+              <span class="stat-label">Total Keys</span>
+            </div>
+            <div class="stat-item">
+              <span id="stat-errors" class="stat-value">0</span>
+              <span class="stat-label">Error Codes</span>
+            </div>
+          </div>
+        </div>
+        <div class="results-actions">
+          <button id="btn-copy-all" class="btn btn-copy-all" type="button">
+            📋 Copy All Keys
+          </button>
+          <button id="btn-export" class="btn btn-export" type="button">
+            📥 Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div id="tab-bar" class="tab-bar" role="tablist" aria-label="Error code tabs"></div>
+
+      <!-- Tab Content (Table) -->
+      <div id="tab-content" role="tabpanel"></div>
+
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
