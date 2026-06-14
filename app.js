@@ -15,6 +15,7 @@
   const nextBtn = document.getElementById('btn-next');
   const backBtn = document.getElementById('btn-back');
   const exportBtn = document.getElementById('btn-export');
+  const exportAllBtn = document.getElementById('btn-export-all');
   const copyAllBtn = document.getElementById('btn-copy-all');
   const clearBtn = document.getElementById('btn-clear');
   const themeToggle = document.getElementById('theme-toggle');
@@ -40,6 +41,7 @@
     nextBtn.addEventListener('click', navigateToResults);
     backBtn.addEventListener('click', navigateToInput);
     exportBtn.addEventListener('click', exportCSV);
+    exportAllBtn.addEventListener('click', exportAllCSV);
     copyAllBtn.addEventListener('click', copyAllKeys);
     clearBtn.addEventListener('click', clearAll);
     themeToggle.addEventListener('click', toggleTheme);
@@ -353,6 +355,38 @@
     URL.revokeObjectURL(url);
 
     showToast(`✅ Exported ${entries.length} key(s) from ${activeTab}`, 'success');
+  }
+
+  // ===== Export All CSV =====
+
+  function exportAllCSV() {
+    if (allEntries.length === 0) return;
+
+    const headers = ['Error Code', 'Key', 'Description', 'Sub Type', 'Time'];
+    const rows = allEntries.map((e) => [
+      e.errorCode,
+      e.key,
+      e.description,
+      e.subType,
+      e.time,
+    ]);
+
+    let csvContent = headers.join(',') + '\n';
+    rows.forEach((row) => {
+      csvContent += row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(',') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `pid_filter_all_results_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    showToast(`✅ Exported all ${allEntries.length} key(s) across ${groupedData.size} error code(s)`, 'success');
   }
 
   // ===== Clear =====

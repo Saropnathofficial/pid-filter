@@ -1041,6 +1041,10 @@ body::before {
     gap: 0.5rem;
   }
 
+  .results-actions .btn:first-child {
+    grid-column: 1 / -1;
+  }
+
   .results-actions .btn {
     width: 100%;
     min-height: 44px;
